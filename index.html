@@ -309,7 +309,7 @@
      ============================================ */
   .forecast-banner {
     margin: 0 var(--space-padding-lg);
-    padding: var(--space-padding-sm) 14px;
+    padding: 10px 14px;
     background: var(--color-bg-inset);
     border-radius: var(--radius-sm);
     display: flex;
@@ -326,6 +326,7 @@
   }
   .forecast-dot.amber { background: var(--color-fg-status-warning); }
   .forecast-dot.green { background: var(--color-fg-status-success); }
+  .forecast-dot.red { background: var(--color-fg-status-error); }
   .forecast-text { flex: 1; min-width: 0; }
   .forecast-headline {
     font-size: 13px;
@@ -346,6 +347,376 @@
     color: var(--color-fg-tertiary);
     flex-shrink: 0;
   }
+
+  /* --- Forecast Status Icon (home card) --- */
+  .forecast-icon-wrap {
+    width: 36px; height: 36px;
+    flex-shrink: 0;
+  }
+  .forecast-status-icon {
+    width: 36px; height: 36px;
+    display: block;
+    filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.06));
+  }
+
+  /* ============================================
+     RISK SCORE CARD (Budget Landing)
+     ============================================ */
+  .risk-card {
+    margin: 0 var(--space-layout-page-margin) var(--space-padding-sm);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: var(--border-width-sm) solid var(--color-border-secondary);
+  }
+  /* Pay Period Outlook stack: warning strip + chart card + breakdown */
+  .outlook-stack {
+    margin: 0 0 var(--space-padding-sm);
+  }
+  /* --- Warning banner (yellow strip) --- */
+  .risk-warning-banner {
+    margin: 0 var(--space-layout-page-margin) 12px;
+    border-radius: var(--radius-lg);
+    border: var(--border-width-sm) solid var(--color-border-secondary);
+    overflow: hidden;
+  }
+  .outlook-stack.risk-green .risk-warning-banner {
+    background: var(--color-bg-status-success-light);
+  }
+  .outlook-stack.risk-yellow .risk-warning-banner {
+    background: var(--color-bg-status-warning-light);
+  }
+  .outlook-stack.risk-red .risk-warning-banner {
+    background: var(--color-bg-status-error-light);
+  }
+  .risk-title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    margin-bottom: 4px;
+  }
+  .risk-inline-pill {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: var(--radius-round);
+    line-height: 1;
+  }
+  .outlook-stack.risk-green .risk-inline-pill {
+    background: rgba(46, 125, 50, 0.15);
+    color: var(--color-fg-status-success);
+  }
+  .outlook-stack.risk-yellow .risk-inline-pill {
+    background: rgba(230, 81, 0, 0.15);
+    color: var(--color-fg-status-warning);
+  }
+  .outlook-stack.risk-red .risk-inline-pill {
+    background: rgba(211, 47, 47, 0.12);
+    color: var(--color-fg-status-error);
+  }
+  /* --- Chart card --- */
+  .outlook-chart-card {
+    margin: 0 var(--space-layout-page-margin) 12px;
+    padding: 0;
+    overflow: hidden;
+  }
+  .outlook-chart-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 16px 10px;
+    border-bottom: var(--border-width-sm) solid var(--color-border-secondary);
+  }
+  .outlook-projected-low {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .outlook-pl-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    color: var(--color-fg-tertiary);
+    text-transform: uppercase;
+    margin-bottom: 1px;
+  }
+  .outlook-pl-amount {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.35px;
+    line-height: 1.15;
+    color: var(--color-fg-status-error);
+    font-variant-numeric: tabular-nums;
+  }
+  .outlook-stack.risk-green .outlook-pl-amount {
+    color: var(--color-fg-status-success);
+  }
+  .outlook-chart-block {
+    padding: 8px 16px 12px;
+    background: var(--color-bg-card);
+  }
+  .outlook-chart-inset {
+    border: var(--border-width-sm) solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    padding: 8px 8px 10px;
+    background: var(--color-bg-surface);
+  }
+  .outlook-chart-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-fg-primary);
+    letter-spacing: -0.25px;
+    margin-bottom: 8px;
+  }
+  .outlook-chart-canvas-wrap {
+    width: 100%;
+    min-height: 152px;
+    cursor: pointer;
+  }
+  #pay-period-balance-chart {
+    display: block;
+    width: 100%;
+    vertical-align: middle;
+  }
+  /* Safety buffer control inside chart inset (pill) */
+  .outlook-chart-threshold {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 6px;
+    padding: 7px 10px;
+    background: var(--color-bg-inset);
+    border-radius: var(--radius-round);
+    border-top: none;
+  }
+  .risk-threshold-gear {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+  .outlook-chart-threshold .risk-threshold-label {
+    font-size: 11px;
+    flex: 1;
+    min-width: 0;
+  }
+  .outlook-chart-threshold .risk-threshold-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 15px;
+  }
+  .outlook-chart-threshold .risk-threshold-amount {
+    font-size: 13px;
+    min-width: 36px;
+  }
+  .outlook-chart-hint {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-fg-secondary);
+    letter-spacing: -0.15px;
+    margin: 0 0 6px;
+  }
+  .pay-period-breakdown {
+    margin: 0 var(--space-layout-page-margin) var(--space-padding-sm);
+    padding: 0;
+    border-radius: var(--radius-lg);
+    border: var(--border-width-sm) solid var(--color-border-secondary);
+    background: var(--color-bg-card);
+    overflow: hidden;
+    max-height: 600px;
+    opacity: 1;
+    transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.35s ease;
+  }
+  .pay-period-breakdown.ppb-collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-color: transparent;
+  }
+  .ppb-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 14px 16px 10px;
+    border-bottom: var(--border-width-sm) solid var(--color-border-secondary);
+  }
+  .ppb-head-left {
+    flex: 1;
+    min-width: 0;
+  }
+  .ppb-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-fg-primary);
+    letter-spacing: -0.3px;
+  }
+  .ppb-edit-bills {
+    display: inline-block;
+    margin-top: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-fg-link);
+    text-decoration: none;
+    letter-spacing: -0.15px;
+  }
+  .ppb-edit-bills:active { opacity: 0.6; }
+  .ppb-date {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-fg-secondary);
+    letter-spacing: -0.2px;
+  }
+  .ppb-rows-wrap {
+    padding: 4px var(--space-padding-lg) 10px;
+  }
+  .ppb-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    font-size: 14px;
+    letter-spacing: -0.25px;
+    border-top: 1px solid var(--color-border-secondary);
+  }
+  .ppb-row:first-child { border-top: none; }
+  .ppb-row.ppb-row-highlight {
+    background: var(--color-bg-inset);
+    margin: 0 calc(-1 * var(--space-padding-lg));
+    padding: 12px var(--space-padding-lg);
+    border-top: none;
+    border-radius: var(--radius-sm);
+  }
+  .ppb-row-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+  }
+  .ppb-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-inset);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ppb-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--color-fg-secondary);
+  }
+  .ppb-row-highlight .ppb-icon {
+    background: var(--color-bg-card);
+    border: var(--border-width-sm) solid var(--color-border-secondary);
+  }
+  .ppb-row-highlight .ppb-icon svg {
+    stroke: var(--color-fg-secondary);
+  }
+  .ppb-row.ppb-sub .ppb-label-main {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-fg-primary);
+  }
+  .ppb-label { flex: 1; min-width: 0; }
+  .ppb-label-main { font-weight: 600; color: var(--color-fg-primary); }
+  .ppb-row.ppb-sub .ppb-label .ppb-muted,
+  .ppb-label .ppb-muted {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-fg-tertiary);
+    margin-top: 2px;
+  }
+  .ppb-val { font-weight: 600; color: var(--color-fg-primary); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ppb-val.pos { color: var(--color-fg-status-success); }
+  .ppb-val.neg { color: var(--color-fg-primary); }
+  .ppb-row.ppb-total {
+    border-top: 2px solid var(--color-border-primary);
+    margin-top: 4px;
+    padding-top: 14px;
+  }
+  .ppb-row.ppb-total .ppb-label-main { font-weight: 700; }
+  .ppb-row.ppb-total .ppb-val { font-weight: 700; font-size: 16px; }
+  .risk-card-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .risk-banner-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+  .risk-banner-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.06));
+  }
+  .risk-info { flex: 1; min-width: 0; }
+  .risk-level {
+    font-size: 15px; font-weight: 700;
+    letter-spacing: -0.35px; line-height: 1.2;
+  }
+  .risk-title-row .risk-level { margin: 0; }
+  .risk-level-sub {
+    font-size: 12px; font-weight: 400;
+    color: var(--color-fg-secondary);
+    letter-spacing: -0.22px; line-height: 1.4;
+    margin-top: 2px;
+  }
+  .risk-threshold-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px var(--space-padding-lg);
+    border-top: var(--border-width-sm) solid var(--color-border-secondary);
+    background: var(--color-bg-inset);
+  }
+  .risk-threshold-label {
+    font-size: 12px; font-weight: 500;
+    color: var(--color-fg-secondary);
+    letter-spacing: -0.2px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .risk-threshold-value {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .risk-threshold-btn {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: var(--border-width-sm) solid var(--color-border-primary);
+    background: var(--color-bg-card);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; font-weight: 600;
+    color: var(--color-fg-primary); line-height: 1;
+    user-select: none;
+  }
+  .risk-threshold-btn:active { background: var(--color-bg-inset); }
+  .risk-threshold-amount {
+    font-size: 15px; font-weight: 700;
+    color: var(--color-fg-primary);
+    letter-spacing: -0.3px;
+    min-width: 40px; text-align: center;
+  }
+
+  /* Risk color states */
+  .risk-green .risk-level { color: var(--color-fg-status-success); }
+  .risk-yellow .risk-level { color: var(--color-fg-status-warning); }
+  /* Banner title: dark primary (reference: “Low Balance Risk” + orange pill) */
+  .outlook-stack.risk-yellow .risk-level { color: var(--color-fg-primary); }
+
+  .risk-red .risk-level { color: var(--color-fg-status-error); }
 
   /* ============================================
      BOTTOM NAV BAR
@@ -439,8 +810,8 @@
   .screen-tab {
     flex: 1;
     text-align: center;
-    padding: 9px 0;
-    font-size: 14px;
+    padding: 9px 4px;
+    font-size: 13px;
     font-weight: 500;
     color: var(--color-fg-secondary);
     letter-spacing: -0.25px;
@@ -479,6 +850,15 @@
     font-weight: 600;
     letter-spacing: -0.3px;
     color: var(--color-fg-primary);
+  }
+  .outlook-chart-card-head .ov-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.35px;
+  }
+  .outlook-chart-card-head .ov-period {
+    font-size: 12px;
+    margin-top: 1px;
   }
   .ov-period {
     font-size: 13px;
@@ -663,7 +1043,9 @@
     flex-shrink: 0;
   }
   .alert-dot.amber { background: var(--color-fg-status-warning); }
+  .alert-dot.yellow { background: var(--color-fg-status-warning); }
   .alert-dot.green { background: var(--color-fg-status-success); }
+  .alert-dot.red { background: var(--color-fg-status-error); }
   .alert-text { flex: 1; }
   .alert-headline {
     font-size: 14px;
@@ -809,6 +1191,27 @@
     flex-shrink: 0;
   }
   .chart-toggle.active .chart-toggle-dot { opacity: 1; }
+  .chart-spending-filter {
+    padding: 4px var(--space-padding-lg) 2px;
+  }
+  .chart-spending-filter.hidden { display: none; }
+  .chart-spending-filter select {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-fg-primary);
+    background: var(--color-bg-inset);
+    border: var(--border-width-sm) solid var(--color-border-primary);
+    border-radius: var(--radius-sm);
+    padding: 5px 24px 5px 10px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23646872' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    cursor: pointer;
+    letter-spacing: -0.2px;
+  }
   .chart-canvas {
     padding: 8px var(--space-padding-lg) 0;
     position: relative;
@@ -834,6 +1237,15 @@
     font-weight: 700;
     color: var(--color-fg-primary);
   }
+  .chart-x-label.predicted {
+    font-style: italic;
+    color: var(--color-fg-tertiary);
+    opacity: 0.7;
+  }
+  .chart-x-label.predicted.current {
+    opacity: 1;
+    color: var(--color-fg-secondary);
+  }
 
   /* --- Category breakdown (This Period) --- */
   .cat-header {
@@ -857,8 +1269,14 @@
     justify-content: space-between;
     padding: 10px var(--space-padding-lg);
     border-bottom: var(--border-width-sm) solid var(--color-border-secondary);
+    transition: background 0.3s ease;
+    cursor: pointer;
   }
+  .cat-row:active { background: var(--color-bg-inset); }
   .cat-row:last-child { border-bottom: none; }
+  .cat-row-highlight {
+    background: var(--color-bg-status-success-light);
+  }
   .cat-row-left {
     display: flex;
     align-items: center;
@@ -902,6 +1320,352 @@
     letter-spacing: -0.25px;
     min-width: 42px;
     text-align: right;
+  }
+
+  /* --- Card insight banner (generic, reusable) --- */
+  .card-insight-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--color-bg-status-success-light);
+    cursor: pointer;
+    user-select: none;
+    border-bottom: var(--border-width-sm) solid var(--color-border-secondary);
+  }
+  .card-insight-banner:active { opacity: 0.85; }
+  .card-insight-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(46,125,50,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .card-insight-icon svg { width: 15px; height: 15px; }
+  .card-insight-body { flex: 1; min-width: 0; }
+  .card-insight-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-fg-primary);
+    letter-spacing: -0.2px;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .card-insight-text .card-insight-item-arrow { margin-top: 2px; }
+  .card-insight-cta {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-fg-status-success);
+    margin-top: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 0;
+  }
+  .card-insight-cta svg {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.25s ease;
+  }
+  .ci-drawer-open .card-insight-cta svg { transform: rotate(180deg); }
+  .card-insight-drawer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: var(--color-bg-status-success-light);
+    border-bottom: var(--border-width-sm) solid transparent;
+  }
+  .ci-drawer-open .card-insight-drawer {
+    max-height: 300px;
+    border-bottom-color: var(--color-border-secondary);
+  }
+  .card-insight-drawer-inner {
+    padding: 0 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card-insight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-fg-secondary);
+    letter-spacing: -0.15px;
+    line-height: 1.4;
+    padding: 6px 8px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .card-insight-item:active { background: rgba(46,125,50,0.10); }
+  .card-insight-item-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-fg-status-success);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .card-insight-item-arrow {
+    flex-shrink: 0;
+    margin-left: auto;
+    color: var(--color-fg-tertiary);
+    align-self: center;
+  }
+  .card-insight-item-arrow svg { width: 12px; height: 12px; }
+
+  /* --- Category insight banner --- */
+  .cat-insight-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--color-bg-status-success-light);
+    cursor: pointer;
+    user-select: none;
+    border-bottom: var(--border-width-sm) solid var(--color-border-secondary);
+  }
+  .cat-insight-banner:active { opacity: 0.85; }
+  .cat-insight-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(46, 125, 50, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .cat-insight-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+  .cat-insight-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .cat-insight-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-fg-primary);
+    letter-spacing: -0.2px;
+    line-height: 1.4;
+  }
+  .cat-insight-cta {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-fg-status-success);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .cat-insight-cta svg {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.25s ease;
+  }
+  .cat-insight-drawer-open .cat-insight-cta svg {
+    transform: rotate(180deg);
+  }
+  .cat-insight-drawer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: var(--color-bg-status-success-light);
+    border-bottom: var(--border-width-sm) solid transparent;
+  }
+  .cat-insight-drawer-open .cat-insight-drawer {
+    max-height: 300px;
+    border-bottom-color: var(--color-border-secondary);
+  }
+  .cat-insight-drawer-inner {
+    padding: 0 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cat-insight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-fg-secondary);
+    letter-spacing: -0.15px;
+    line-height: 1.4;
+  }
+  .cat-insight-item-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-fg-status-success);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  /* --- Spending Power card --- */
+  .sp-card {
+    overflow: hidden;
+  }
+  .sp-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 16px 16px 0;
+  }
+  .sp-days-left {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+  }
+  .sp-days-num {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-fg-primary);
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .sp-days-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-fg-secondary);
+    letter-spacing: -0.25px;
+  }
+  .sp-payday {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-fg-tertiary);
+    letter-spacing: -0.2px;
+  }
+  .sp-track-wrap {
+    padding: 12px 16px 0;
+  }
+  .sp-track {
+    height: 6px;
+    background: var(--color-bg-inset);
+    border-radius: var(--radius-round);
+    overflow: hidden;
+  }
+  .sp-track-elapsed {
+    height: 100%;
+    border-radius: var(--radius-round);
+    background: linear-gradient(90deg, var(--earnin-yellow), #F59E0B);
+    transition: width 0.4s ease;
+  }
+  .sp-track-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-fg-tertiary);
+    letter-spacing: -0.2px;
+  }
+  .sp-tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 14px 16px 16px;
+  }
+  .sp-tier {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-inset);
+  }
+  .sp-tier + .sp-tier {
+    margin-top: 8px;
+  }
+  .sp-tier-buffer {
+    background: var(--color-bg-status-warning-light);
+  }
+  .sp-tier-positive {
+    background: var(--color-bg-status-success-light);
+  }
+  .sp-tier-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(230, 81, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .sp-tier-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--color-fg-status-warning);
+  }
+  .sp-tier-icon-positive {
+    background: rgba(46, 125, 50, 0.1);
+  }
+  .sp-tier-icon-positive svg {
+    stroke: var(--color-fg-status-success);
+  }
+  .sp-tier-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .sp-tier-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-fg-primary);
+    letter-spacing: -0.25px;
+  }
+  .sp-tier-sub {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-fg-tertiary);
+    letter-spacing: -0.15px;
+    margin-top: 1px;
+  }
+  .sp-tier-amount {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-fg-status-warning);
+    letter-spacing: -0.5px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .sp-tier-amount-positive {
+    color: var(--color-fg-status-success);
+  }
+  .sp-tier-unit {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-fg-tertiary);
+    letter-spacing: -0.15px;
+    margin-left: -6px;
+  }
+  .sp-edit-bills {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-fg-link);
+    text-decoration: none;
+    margin-top: 6px;
+    justify-content: flex-end;
+  }
+  .sp-edit-bills:active { opacity: 0.6; }
+  .sp-edit-bills svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
   }
 
   /* --- Category Over Time --- */
@@ -1424,9 +2188,101 @@
   .pd-cat-compare svg { width: 14px; height: 14px; color: var(--color-fg-secondary); }
 
   /* --- Compare screen --- */
-  .cmp-delta.over { color: var(--color-fg-status-error); background: var(--color-bg-status-error-light); }
-  .cmp-delta.under { color: var(--color-fg-status-success); background: var(--color-bg-status-success-light); }
-  .cmp-delta.same { color: var(--color-fg-secondary); background: var(--color-bg-inset); }
+  .cmp-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-fg-tertiary);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    padding: 0 var(--space-layout-page-margin) 10px;
+  }
+  .cmp-cat-card {
+    margin: 0 var(--space-layout-page-margin) 12px;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-surface);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .cmp-cat-card.cmp-highlight {
+    box-shadow: 0 0 0 2px var(--color-fg-status-success), 0 2px 8px rgba(46,125,50,0.15);
+  }
+  .cmp-cat-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px 0;
+  }
+  .cmp-cat-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .cmp-cat-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-fg-primary);
+    letter-spacing: -0.3px;
+  }
+  .cmp-cat-body { padding: 12px 16px 14px; }
+  .cmp-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .cmp-bar-row:last-child { margin-bottom: 0; }
+  .cmp-bar-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-fg-secondary);
+    width: 36px;
+    flex-shrink: 0;
+  }
+  .cmp-bar-track {
+    flex: 1;
+    height: 10px;
+    background: var(--color-bg-inset);
+    border-radius: var(--radius-round);
+    overflow: hidden;
+  }
+  .cmp-bar-fill {
+    height: 100%;
+    border-radius: var(--radius-round);
+    transition: width 0.4s ease;
+  }
+  .cmp-bar-val {
+    font-size: 15px;
+    font-weight: 700;
+    min-width: 48px;
+    text-align: right;
+    letter-spacing: -0.3px;
+  }
+  .cmp-bar-val.you { color: var(--color-fg-primary); }
+  .cmp-bar-val.peer { color: var(--color-fg-secondary); }
+  .cmp-cat-delta {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    padding: 6px 10px;
+    border-radius: var(--radius-xs);
+    margin-top: 10px;
+    letter-spacing: -0.15px;
+  }
+  .cmp-cat-delta.over { color: var(--color-fg-status-error); background: var(--color-bg-status-error-light); }
+  .cmp-cat-delta.under { color: var(--color-fg-status-success); background: var(--color-bg-status-success-light); }
+  .cmp-cat-delta.same { color: var(--color-fg-secondary); background: var(--color-bg-inset); }
+  .cmp-footer-note {
+    padding: 10px var(--space-layout-page-margin) 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--color-fg-tertiary);
+    line-height: 1.4;
+  }
+  .cmp-footer-note svg { width: 13px; height: 13px; flex-shrink: 0; }
 
   /* --- Trend rows --- */
   .trend-row {
@@ -2064,10 +2920,19 @@
           </div>
         </div>
         <div class="forecast-banner" id="home-forecast" onclick="navigateTo('screen-detail')">
-          <div class="forecast-dot amber" id="home-forecast-dot"></div>
+          <div class="forecast-icon-wrap" id="home-forecast-icon">
+            <svg class="forecast-status-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2" y="2" width="32" height="32" rx="10" fill="#FFFBF5" stroke="#F59E0B" stroke-width="1.25"/>
+              <g transform="translate(6, 6)" fill="none" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                <path d="M12 9v4"/>
+                <path d="M12 17h.01"/>
+              </g>
+            </svg>
+          </div>
           <div class="forecast-text">
-            <div class="forecast-headline" id="home-status-text">Projected low of −$89 on Mar 28</div>
-            <div class="forecast-sub" id="home-status-sub">3 bills before your next paycheck</div>
+            <div class="forecast-headline" id="home-status-text">Predicted Balance</div>
+            <div class="forecast-sub" id="home-status-sub">Attention needed — low point $67 on Mar 28</div>
           </div>
           <svg class="forecast-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
@@ -2117,83 +2982,106 @@
 
       <!-- ===== TOP-LEVEL TABS ===== -->
       <div class="screen-tabs">
-        <div class="screen-tab active" onclick="switchScreenTab('this-period')">This Period</div>
-        <div class="screen-tab" onclick="switchScreenTab('over-time')">Over Time</div>
+        <div class="screen-tab active" onclick="switchScreenTab('this-period')">Pay Period Outlook</div>
+        <div class="screen-tab" onclick="switchScreenTab('over-time')">Cash Flow Optimizer</div>
       </div>
 
       <!-- ============================================================ -->
-      <!-- TAB 1: THIS PERIOD                                          -->
+      <!-- TAB 1: PAY PERIOD OUTLOOK                                   -->
       <!-- ============================================================ -->
       <div class="tab-panel active" id="panel-this-period">
 
-        <!-- Pay Period Overview — Bubble Visualization -->
-        <div class="ds-card anim bubble-card">
-          <div class="ov-header">
-            <div class="ov-title" id="detail-headline">Pay Period Outlook</div>
-            <div class="ov-period">Mar 17 – 31 · <strong>Day 6</strong></div>
-          </div>
-
-          <div class="bubble-scene">
-            <div class="bubble bubble-balance">
-              <div class="bubble-amount">$1,247</div>
-              <div class="bubble-label">Bank balance</div>
-            </div>
-            <div class="bubble bubble-spent tappable" onclick="navigateTo('screen-transactions')">
-              <div class="bubble-amount">$253</div>
-              <div class="bubble-label">Spent so far</div>
-            </div>
-            <div class="bubble bubble-bills tappable" onclick="navigateTo('screen-bills')">
-              <div class="bubble-amount">$435</div>
-              <div class="bubble-label">3 bills due</div>
+        <!-- Pay Period Outlook: warning strip + chart card + breakdown -->
+        <div class="outlook-stack anim risk-yellow" id="risk-card">
+          <div class="risk-warning-banner">
+            <div class="risk-card-inner">
+              <div class="risk-banner-icon" id="risk-banner-icon" aria-hidden="true"></div>
+              <div class="risk-info">
+                <div class="risk-title-row">
+                  <div class="risk-level" id="risk-level">Low Balance Risk</div>
+                  <span class="risk-inline-pill" id="outlook-risk-badge">Caution</span>
+                </div>
+                <div class="risk-level-sub" id="risk-level-sub">Balance may dip to $67 on Mar 28 — below your $500 safety buffer.</div>
+              </div>
             </div>
           </div>
 
-          <div class="alert-banner" id="detail-badge" onclick="navigateTo('screen-timeline')">
-            <div class="alert-dot amber" id="detail-dot"></div>
-            <div class="alert-text">
-              <div class="alert-headline" id="detail-subtext">Projected low of −$89 on Mar 28</div>
-              <div class="alert-sub">Tap to see your daily balance forecast</div>
+          <div class="ds-card outlook-chart-card">
+            <div class="outlook-chart-card-head">
+              <div>
+                <div class="ov-title" id="detail-headline">Predicted Bank Balance</div>
+                <div class="ov-period" id="outlook-period-line">Mar 17 – 31 · <strong id="outlook-day-n">Day 6</strong></div>
+              </div>
+              <div class="outlook-projected-low">
+                <span class="outlook-pl-label">Projected low</span>
+                <span class="outlook-pl-amount" id="outlook-projected-low-amt">$67.00</span>
+              </div>
             </div>
-            <svg class="alert-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+
+            <div class="outlook-chart-block">
+              <div class="outlook-chart-hint">Tap any date to see how we made the prediction.</div>
+              <div class="outlook-chart-inset">
+                <div class="outlook-chart-canvas-wrap">
+                  <canvas id="pay-period-balance-chart" height="180" role="img" aria-label="Projected balance by day"></canvas>
+                </div>
+                <div class="risk-threshold-row outlook-chart-threshold">
+                  <div class="risk-threshold-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="risk-threshold-gear" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Safety buffer
+                  </div>
+                  <div class="risk-threshold-value">
+                    <div class="risk-threshold-btn" onclick="adjustThreshold(-50)">−</div>
+                    <div class="risk-threshold-amount" id="risk-threshold-amt">$500</div>
+                    <div class="risk-threshold-btn" onclick="adjustThreshold(50)">+</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pay-period-breakdown ppb-collapsed" id="pay-period-breakdown">
+            <div class="ppb-head">
+              <div class="ppb-head-left">
+                <div class="ppb-title">Prediction Breakdown</div>
+                <a class="ppb-edit-bills" href="javascript:void(0)" onclick="navigateTo('screen-bills'); return false;">Missing or wrong bill? Edit here to improve prediction</a>
+              </div>
+              <div class="ppb-date" id="ppb-selected-label">Mar 28</div>
+            </div>
+            <div class="ppb-rows-wrap" id="ppb-rows"></div>
           </div>
         </div>
 
-        <!-- Insights (carousel) -->
-        <div class="section-title anim anim-d1">Insights</div>
-        <div class="insight-carousel anim anim-d1">
-          <div class="insight-card urgent-card" onclick="navigateTo('screen-timeline')">
-            <div class="ic-icon" style="background:var(--color-bg-status-error-light);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#D32F2F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <!-- Spending Breakdown -->
+        <div class="section-title anim anim-d2">Spending Breakdown</div>
+        <div class="ds-card anim anim-d2" id="cat-card">
+          <div class="cat-insight-banner" onclick="highlightCatRow('Dining &amp; Takeout');">
+            <div class="cat-insight-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
-            <div class="ic-title">Possible overdraft Mar 28</div>
-            <div class="ic-tag urgent">Action needed</div>
-            <div class="ic-cta">View forecast →</div>
-          </div>
-          <div class="insight-card" onclick="navigateTo('screen-bills')">
-            <div class="ic-icon" style="background:var(--color-bg-status-warning-light);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="cat-insight-body">
+              <div class="cat-insight-text">Dining &amp; Takeout is 10% lower than your 3-period average.</div>
+              <div class="cat-insight-cta" onclick="event.stopPropagation(); toggleCatInsights();">More insights <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
             </div>
-            <div class="ic-title">Car insurance up 18% vs. last year</div>
-            <div class="ic-tag warning">Bill increase</div>
-            <div class="ic-cta">Shop for a better rate →</div>
+            <div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
           </div>
-          <div class="insight-card" onclick="navigateTo('screen-bills')">
-            <div class="ic-icon" style="background:var(--color-bg-status-info-light);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-status-info)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <div class="cat-insight-drawer">
+            <div class="cat-insight-drawer-inner">
+              <div class="cat-insight-item" onclick="event.stopPropagation(); highlightCatRow('Groceries');">
+                <div class="cat-insight-item-dot"></div>
+                <span>Groceries spending is up 15% — you've made 3 more grocery trips than usual.</span>
+                <div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+              </div>
+              <div class="cat-insight-item" onclick="event.stopPropagation(); highlightCatRow('Transportation');">
+                <div class="cat-insight-item-dot"></div>
+                <span>Transportation costs are flat vs. last period. Nice consistency.</span>
+                <div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+              </div>
             </div>
-            <div class="ic-title">$435 in upcoming bills</div>
-            <div class="ic-tag info">3 upcoming</div>
-            <div class="ic-cta">Review bills →</div>
           </div>
-        </div>
-
-        <!-- Spending by Category -->
-        <div class="section-title anim anim-d2">Spending by Category</div>
-        <div class="ds-card anim anim-d2">
           <div class="cat-header">
             <div class="cat-header-total">$253 <span>this period</span></div>
           </div>
-          <div class="cat-row">
+          <div class="cat-row" onclick="showCatTransactions('Dining &amp; Takeout')">
             <div class="cat-row-left">
               <div class="cat-dot" style="background:#E65100;"></div>
               <div class="cat-name">Dining & Takeout</div>
@@ -2203,7 +3091,7 @@
               <div class="cat-amount">$108</div>
             </div>
           </div>
-          <div class="cat-row">
+          <div class="cat-row" onclick="showCatTransactions('Groceries')">
             <div class="cat-row-left">
               <div class="cat-dot" style="background:#1565C0;"></div>
               <div class="cat-name">Groceries</div>
@@ -2213,7 +3101,7 @@
               <div class="cat-amount">$62</div>
             </div>
           </div>
-          <div class="cat-row">
+          <div class="cat-row" onclick="showCatTransactions('Transportation')">
             <div class="cat-row-left">
               <div class="cat-dot" style="background:#7B1FA2;"></div>
               <div class="cat-name">Transportation</div>
@@ -2223,7 +3111,7 @@
               <div class="cat-amount">$41</div>
             </div>
           </div>
-          <div class="cat-row">
+          <div class="cat-row" onclick="showCatTransactions('Entertainment')">
             <div class="cat-row-left">
               <div class="cat-dot" style="background:#00838F;"></div>
               <div class="cat-name">Entertainment</div>
@@ -2233,7 +3121,7 @@
               <div class="cat-amount">$22</div>
             </div>
           </div>
-          <div class="cat-row">
+          <div class="cat-row" onclick="showCatTransactions('Other')">
             <div class="cat-row-left">
               <div class="cat-dot" style="background:#9DA1A8;"></div>
               <div class="cat-name">Other</div>
@@ -2245,26 +3133,51 @@
           </div>
         </div>
 
-        <!-- Remaining days breakdown -->
-        <div class="section-title anim anim-d2">Remaining Days</div>
-        <div class="ds-card anim anim-d2">
-          <div style="padding: var(--space-padding-lg);">
-            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;">
-              <div>
-                <div style="font-size:13px; font-weight:500; color:var(--color-fg-secondary); letter-spacing:-0.25px;">Safe to spend per day</div>
-                <div style="font-size:28px; font-weight:700; color:var(--color-fg-primary); letter-spacing:-0.5px; margin-top:2px;">$70</div>
-              </div>
-              <div style="text-align:right;">
-                <div style="font-size:13px; font-weight:500; color:var(--color-fg-secondary); letter-spacing:-0.25px;">8 days left</div>
-                <div style="font-size:13px; font-weight:400; color:var(--color-fg-tertiary); letter-spacing:-0.25px; margin-top:2px;">until Mar 31 payday</div>
-              </div>
+        <!-- Spending Power -->
+        <div class="section-title anim anim-d2">Spending Power</div>
+        <div class="ds-card anim anim-d2 sp-card" id="spending-power-card">
+          <div class="sp-header">
+            <div class="sp-days-left">
+              <span class="sp-days-num" id="sp-days-num">8</span>
+              <span class="sp-days-label">days left</span>
             </div>
-            <div style="height:6px; background:var(--color-bg-inset); border-radius:var(--radius-round); overflow:hidden;">
-              <div style="height:100%; width:43%; background:var(--earnin-yellow); border-radius:var(--radius-round);"></div>
+            <div class="sp-payday">until Mar 31 payday</div>
+          </div>
+
+          <div class="sp-track-wrap">
+            <div class="sp-track">
+              <div class="sp-track-elapsed" id="sp-track-elapsed" style="width:43%"></div>
             </div>
-            <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:11px; color:var(--color-fg-tertiary); letter-spacing:-0.25px;">
+            <div class="sp-track-labels">
               <span>6 days elapsed</span>
-              <span>$559 remaining after bills</span>
+              <span id="sp-remaining-label">$559 remaining after bills</span>
+            </div>
+            <a class="sp-edit-bills" href="javascript:void(0)" onclick="navigateTo('screen-bills'); return false;">View Bills →</a>
+          </div>
+
+          <div class="sp-tiers">
+            <div class="sp-tier sp-tier-buffer">
+              <div class="sp-tier-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="sp-tier-body">
+                <div class="sp-tier-label">Keep safety buffer</div>
+                <div class="sp-tier-sub">Stay above $<span id="sp-buffer-val">500</span></div>
+              </div>
+              <div class="sp-tier-amount" id="sp-per-day-buffer">$7</div>
+              <div class="sp-tier-unit">/day</div>
+            </div>
+
+            <div class="sp-tier sp-tier-positive">
+              <div class="sp-tier-icon sp-tier-icon-positive">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="sp-tier-body">
+                <div class="sp-tier-label">Stay positive</div>
+                <div class="sp-tier-sub">Don't overdraft</div>
+              </div>
+              <div class="sp-tier-amount sp-tier-amount-positive" id="sp-per-day-positive">$70</div>
+              <div class="sp-tier-unit">/day</div>
             </div>
           </div>
         </div>
@@ -2273,21 +3186,54 @@
       </div>
 
       <!-- ============================================================ -->
-      <!-- TAB 2: OVER TIME                                            -->
+      <!-- TAB 2: CASH FLOW OPTIMIZER                                  -->
       <!-- ============================================================ -->
       <div class="tab-panel" id="panel-over-time">
 
-        <!-- Cash Flow chart -->
-        <div class="section-title anim">Cash Flow</div>
-        <div class="chart-card anim">
+        <!-- Cash Flow Trends -->
+        <div class="section-title anim">Cash Flow Trends</div>
+        <div class="chart-card anim" id="cf-trends-card">
+          <div class="card-insight-banner" onclick="selectSeries('balance'); document.getElementById('cashflow-chart').scrollIntoView({behavior:'smooth',block:'center'});">
+            <div class="card-insight-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div class="card-insight-body">
+              <div class="card-insight-text"><span>Balance down 3 periods in a row — $312 less vs. 3 periods ago.</span><div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+              <div class="card-insight-cta" onclick="event.stopPropagation(); toggleCardInsight('cf-trends-card');">More insights <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+            </div>
+          </div>
+          <div class="card-insight-drawer">
+            <div class="card-insight-drawer-inner">
+              <div class="card-insight-item" onclick="event.stopPropagation(); selectSeries('spending'); document.getElementById('cashflow-chart').scrollIntoView({behavior:'smooth',block:'center'});">
+                <div class="card-insight-item-dot"></div>
+                <span>Dining spending up 22% over 3 months — $340 → $415/period.</span>
+                <div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+              </div>
+              <div class="card-insight-item" onclick="event.stopPropagation(); selectSeries('income'); document.getElementById('cashflow-chart').scrollIntoView({behavior:'smooth',block:'center'});">
+                <div class="card-insight-item-dot"></div>
+                <span>Income steady at ~$3,700/mo. Consistent last 6 months.</span>
+                <div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+              </div>
+            </div>
+          </div>
           <div class="chart-tabs">
             <div class="chart-tab active" onclick="switchChart('period')">By Pay Period</div>
             <div class="chart-tab" onclick="switchChart('month')">By Month</div>
           </div>
           <div class="chart-toggles" id="chart-toggles">
-            <div class="chart-toggle active" data-series="balance" onclick="toggleSeries('balance')"><span class="chart-toggle-dot" style="background:var(--color-fg-primary);"></span>Ending balance</div>
-            <div class="chart-toggle" data-series="income" onclick="toggleSeries('income')"><span class="chart-toggle-dot" style="background:var(--color-fg-status-success);"></span>Income</div>
-            <div class="chart-toggle" data-series="spending" onclick="toggleSeries('spending')"><span class="chart-toggle-dot" style="background:var(--color-fg-status-warning);"></span>Spending</div>
+            <div class="chart-toggle active" data-series="balance" onclick="selectSeries('balance')"><span class="chart-toggle-dot" style="background:var(--color-fg-primary);"></span>Balance</div>
+            <div class="chart-toggle" data-series="income" onclick="selectSeries('income')"><span class="chart-toggle-dot" style="background:var(--color-fg-status-success);"></span>Income</div>
+            <div class="chart-toggle" data-series="spending" onclick="selectSeries('spending')"><span class="chart-toggle-dot" style="background:var(--color-fg-status-warning);"></span>Spending</div>
+          </div>
+          <div class="chart-spending-filter hidden" id="chart-spending-filter">
+            <select id="spending-cat-select" onchange="onSpendingCatChange()">
+              <option value="all">All spending</option>
+              <option value="Dining & Takeout">Dining & Takeout</option>
+              <option value="Groceries">Groceries</option>
+              <option value="Transportation">Transportation</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
           <div class="chart-canvas">
             <canvas id="cashflow-chart" height="180"></canvas>
@@ -2307,7 +3253,35 @@
           <div id="pd-picker-options"></div>
         </div>
         <div class="period-detail visible" id="period-detail">
-          <div class="ds-card">
+          <div class="ds-card" id="cf-breakdown-card">
+            <div class="card-insight-banner" onclick="showCatCompare('Dining &amp; Takeout', selectedPeriodIdx);">
+              <div class="card-insight-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="card-insight-body">
+                <div class="card-insight-text"><span>Dining &amp; Takeout is 36% higher than peers.</span><div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+                <div class="card-insight-cta" onclick="event.stopPropagation(); toggleCardInsight('cf-breakdown-card');">More insights <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+              </div>
+            </div>
+            <div class="card-insight-drawer">
+              <div class="card-insight-drawer-inner">
+                <div class="card-insight-item" onclick="event.stopPropagation(); showCatCompare('Dining & Takeout', selectedPeriodIdx);">
+                  <div class="card-insight-item-dot"></div>
+                  <span>Compare your Dining &amp; Takeout with peers →</span>
+                  <div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                </div>
+                <div class="card-insight-item" onclick="event.stopPropagation(); navigateTo('screen-bills');">
+                  <div class="card-insight-item-dot"></div>
+                  <span>Car insurance up 18% vs. last year. Shop for a better rate.</span>
+                  <div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                </div>
+                <div class="card-insight-item" onclick="event.stopPropagation(); selectSeries('spending'); document.getElementById('cashflow-chart').scrollIntoView({behavior:'smooth',block:'center'});">
+                  <div class="card-insight-item-dot"></div>
+                  <span>Bills average $1,280/mo — 35% of income. Stable since Oct.</span>
+                  <div class="card-insight-item-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                </div>
+              </div>
+            </div>
             <div class="pd-header">
               <div class="pd-title" id="pd-title">Mar 17 – 31</div>
               <div class="pd-tag current" id="pd-tag">Current period</div>
@@ -2333,45 +3307,9 @@
             <div id="pd-categories"></div>
 
             <div class="pd-compare-hint">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px; height:12px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              Tap a category to compare with peers
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px; height:12px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              Tap a category to view transactions
             </div>
-          </div>
-        </div>
-
-        <!-- Insights (carousel) -->
-        <div class="section-title anim anim-d2">Insights</div>
-        <div class="insight-carousel anim anim-d2">
-          <div class="insight-card" onclick="(function(){toggleSeries('balance');if(!activeSeries.balance){toggleSeries('balance');}document.getElementById('cashflow-chart').scrollIntoView({behavior:'smooth',block:'center'});})()">
-            <div class="ic-icon" style="background:var(--color-bg-inset);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-            </div>
-            <div class="ic-title">Balance down 3 periods in a row</div>
-            <div class="ic-desc">$312 less vs. 3 periods ago</div>
-            <div class="ic-cta">See on chart →</div>
-          </div>
-          <div class="insight-card" onclick="(function(){if(!activeSeries.spending){toggleSeries('spending');}document.getElementById('cashflow-chart').scrollIntoView({behavior:'smooth',block:'center'});})()">
-            <div class="ic-icon" style="background:var(--color-bg-status-warning-light);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            </div>
-            <div class="ic-title">Dining up 22% over 3 months</div>
-            <div class="ic-desc">$340 → $415/mo</div>
-            <div class="ic-cta">See on chart →</div>
-          </div>
-          <div class="insight-card">
-            <div class="ic-icon" style="background:var(--color-bg-status-success-light);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
-            <div class="ic-title">Income steady at ~$3,700/mo</div>
-            <div class="ic-desc">Consistent last 6 months</div>
-          </div>
-          <div class="insight-card" onclick="navigateTo('screen-bills')">
-            <div class="ic-icon" style="background:var(--color-bg-inset);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            </div>
-            <div class="ic-title">Bills average $1,280/mo</div>
-            <div class="ic-desc">35% of income. Stable since Oct.</div>
-            <div class="ic-cta">Review bills →</div>
           </div>
         </div>
 
@@ -2603,29 +3541,15 @@
         <span>Back</span>
       </div>
       <div style="padding: 4px var(--space-layout-page-margin) 16px;">
-        <h2 class="cmp-title" style="font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--color-fg-primary);">Category</h2>
-        <p class="cmp-period" style="font-size: 14px; color: var(--color-fg-secondary); margin-top: 4px; letter-spacing: -0.25px;">Period</p>
+        <h2 style="font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--color-fg-primary);">Spending vs. Peers</h2>
+        <p class="cmp-period-label" style="font-size: 14px; color: var(--color-fg-secondary); margin-top: 4px; letter-spacing: -0.25px;">Period</p>
       </div>
-      <div class="ds-card anim" style="margin:0 var(--space-layout-page-margin);">
-        <div style="padding:var(--space-padding-lg);">
-          <div style="font-size:12px; font-weight:600; color:var(--color-fg-tertiary); letter-spacing:0.3px; text-transform:uppercase; margin-bottom:14px;">How you compare</div>
-          <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-            <div style="font-size:13px; font-weight:500; color:var(--color-fg-secondary); width:40px;">You</div>
-            <div style="flex:1; height:12px; background:var(--color-bg-inset); border-radius:var(--radius-round); overflow:hidden;"><div class="cmp-you-bar" style="height:100%; border-radius:var(--radius-round); transition:width 0.3s;"></div></div>
-            <div class="cmp-you-val" style="font-size:16px; font-weight:700; color:var(--color-fg-primary); min-width:50px; text-align:right;">$0</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
-            <div style="font-size:13px; font-weight:500; color:var(--color-fg-secondary); width:40px;">Peers</div>
-            <div style="flex:1; height:12px; background:var(--color-bg-inset); border-radius:var(--radius-round); overflow:hidden;"><div class="cmp-peer-bar" style="height:100%; background:var(--color-border-primary); border-radius:var(--radius-round); transition:width 0.3s;"></div></div>
-            <div class="cmp-peer-val" style="font-size:16px; font-weight:700; color:var(--color-fg-secondary); min-width:50px; text-align:right;">$0</div>
-          </div>
-          <div class="cmp-delta" style="font-size:15px; font-weight:700; text-align:center; padding:10px; border-radius:var(--radius-sm); background:var(--color-bg-inset);"></div>
-        </div>
-        <div style="padding:10px var(--space-padding-lg) 14px; border-top:var(--border-width-sm) solid var(--color-border-secondary); display:flex; align-items:flex-start; gap:5px; font-size:10px; color:var(--color-fg-tertiary); line-height:1.4;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px; height:13px; flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          Anonymized, aggregated data from EarnIn members with similar income in your metro area.
-        </div>
+      <div id="cmp-cards-container"></div>
+      <div class="cmp-footer-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        Anonymized, aggregated data from EarnIn members with similar income in your metro area.
       </div>
+      <div style="height: 16px;"></div>
     </div>
   </div>
 
@@ -2635,35 +3559,15 @@
 
       <div class="detail-back" onclick="navigateTo('screen-detail')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        <span>Cash Flow</span>
+        <span>Back</span>
       </div>
 
       <div style="padding: 4px var(--space-layout-page-margin) 16px;">
-        <h2 style="font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--color-fg-primary);">Transactions</h2>
-        <p style="font-size: 14px; color: var(--color-fg-secondary); margin-top: 4px; letter-spacing: -0.25px;">This pay period · $253 spent</p>
+        <h2 id="txn-screen-title" style="font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--color-fg-primary);">Transactions</h2>
+        <p id="txn-screen-subtitle" style="font-size: 14px; color: var(--color-fg-secondary); margin-top: 4px; letter-spacing: -0.25px;"></p>
       </div>
 
-      <div class="ds-card anim" id="txn-list">
-        <div class="txn-day-header">Today · Mar 22</div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-status-warning-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-status-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div><div><div class="txn-name">Starbucks</div><div class="txn-cat">Dining out</div></div></div><div class="txn-amount">−$6.45</div></div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-inset);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div><div><div class="txn-name">Target</div><div class="txn-cat">Shopping</div></div></div><div class="txn-amount">−$34.20</div></div>
-
-        <div class="txn-day-header">Yesterday · Mar 21</div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-status-warning-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-status-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div><div><div class="txn-name">Chipotle</div><div class="txn-cat">Dining out</div></div></div><div class="txn-amount">−$12.85</div></div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-inset);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div class="txn-name">Uber</div><div class="txn-cat">Transportation</div></div></div><div class="txn-amount">−$18.50</div></div>
-
-        <div class="txn-day-header">Mar 20</div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-inset);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div><div><div class="txn-name">Whole Foods</div><div class="txn-cat">Groceries</div></div></div><div class="txn-amount">−$67.30</div></div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-status-warning-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-status-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div><div><div class="txn-name">DoorDash</div><div class="txn-cat">Dining out</div></div></div><div class="txn-amount">−$28.90</div></div>
-
-        <div class="txn-day-header">Mar 19</div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-inset);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="txn-name">Netflix</div><div class="txn-cat">Subscriptions</div></div></div><div class="txn-amount">−$15.99</div></div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-inset);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="txn-name">Gas Station</div><div class="txn-cat">Transportation</div></div></div><div class="txn-amount">−$42.00</div></div>
-
-        <div class="txn-day-header">Mar 17 – 18</div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-status-warning-light);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-status-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div><div><div class="txn-name">Panera Bread</div><div class="txn-cat">Dining out</div></div></div><div class="txn-amount">−$14.25</div></div>
-        <div class="txn-row"><div class="txn-left"><div class="txn-icon" style="background:var(--color-bg-inset);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div><div><div class="txn-name">Amazon</div><div class="txn-cat">Shopping</div></div></div><div class="txn-amount">−$12.56</div></div>
-      </div>
+      <div class="ds-card anim" id="txn-list"></div>
 
       <div style="height: 16px;"></div>
     </div>
@@ -2705,6 +3609,119 @@
   const bills = [false, false, false];
   let cur = 'screen-home';
   let chartMode = 'period';
+  let safetyThreshold = 500;
+
+  function getPayPeriodLowPoint() {
+    let worst = { day: '?', bal: Infinity };
+    for (let d = todayDate; d <= 31; d++) {
+      if (!calendarData[d]) continue;
+      if (calendarData[d].bal < worst.bal) worst = { day: d, bal: calendarData[d].bal };
+    }
+    return worst;
+  }
+
+  function computeRiskScore() {
+    const lowPt = getPayPeriodLowPoint();
+    const minBal = Number.isFinite(lowPt.bal) ? lowPt.bal : 0;
+    let level, label, score, sub, homeText, homeSub;
+
+    if (minBal < 0) {
+      level = 'red';
+      label = 'High';
+      score = Math.min(100, Math.round(Math.abs(minBal) / 5) + 70);
+      const dayNum = lowPt.day;
+      sub = `Balance projected to hit −$${Math.abs(minBal)} on Mar ${dayNum}. You have 3 bills due before your next paycheck.`;
+      homeText = `Overdraft risk — projected −$${Math.abs(minBal)} on Mar ${dayNum}`;
+      homeSub = '3 bills before your next paycheck';
+    } else if (minBal < safetyThreshold) {
+      level = 'yellow';
+      label = 'Caution';
+      score = Math.round(30 + ((safetyThreshold - minBal) / safetyThreshold) * 40);
+      const dayNum = lowPt.day;
+      sub = `Balance may dip to $${minBal} on Mar ${dayNum} — below your $${safetyThreshold} safety buffer.`;
+      homeText = 'Predicted Balance';
+      homeSub = `Attention needed — low point $${minBal} on Mar ${dayNum}`;
+    } else {
+      level = 'green';
+      label = 'Good';
+      score = Math.max(5, Math.round(20 - ((minBal - safetyThreshold) / 500) * 15));
+      sub = `Balance stays above $${safetyThreshold} this pay period. Lowest point: $${minBal} on Mar ${lowPt.day}.`;
+      homeText = `Looking good — above $${safetyThreshold} all period`;
+      homeSub = `Low point $${minBal} on Mar ${lowPt.day}`;
+    }
+
+    return { level, label, score, sub, homeText, homeSub };
+  }
+
+  /** Shared status icons (rounded-rect style) for home banner and outlook warning. */
+  const RISK_STATUS_SVGS = {
+    green: '<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="2" width="32" height="32" rx="10" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.25"/><g transform="translate(6, 6)" fill="none" stroke="#15803D" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></g></svg>',
+    yellow: '<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="2" width="32" height="32" rx="10" fill="#FFFBF5" stroke="#F59E0B" stroke-width="1.25"/><g transform="translate(6, 6)" fill="none" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></g></svg>',
+    red: '<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="2" width="32" height="32" rx="10" fill="#FFF1F2" stroke="#F87171" stroke-width="1.25"/><g transform="translate(6, 6)" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></g></svg>'
+  };
+
+  function renderRiskScore() {
+    const r = computeRiskScore();
+
+    const card = document.getElementById('risk-card');
+    card.className = 'outlook-stack anim risk-' + r.level;
+
+    const bannerIcon = document.getElementById('risk-banner-icon');
+    if (bannerIcon) bannerIcon.innerHTML = RISK_STATUS_SVGS[r.level] || RISK_STATUS_SVGS.yellow;
+
+    const levelNames = { red: 'Overdraft Risk', yellow: 'Low Balance Risk', green: 'Looking Good' };
+    document.getElementById('risk-level').textContent = levelNames[r.level];
+    document.getElementById('risk-level-sub').textContent = r.sub;
+    document.getElementById('risk-threshold-amt').textContent = '$' + safetyThreshold.toLocaleString('en-US');
+    updateOutlookPeriodLine();
+    const badge = document.getElementById('outlook-risk-badge');
+    if (badge) badge.textContent = r.label;
+
+    const iconWrap = document.getElementById('home-forecast-icon');
+    iconWrap.innerHTML = RISK_STATUS_SVGS[r.level] || RISK_STATUS_SVGS.yellow;
+
+    document.getElementById('home-status-text').textContent = r.homeText;
+    document.getElementById('home-status-sub').textContent = r.homeSub;
+
+    updateProjectedLowDisplay();
+    updateSpendingPower();
+    setTimeout(() => { drawPayPeriodBalanceChart(); }, 0);
+  }
+
+  function formatMoney2(n) {
+    return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function updateProjectedLowDisplay() {
+    const el = document.getElementById('outlook-projected-low-amt');
+    if (!el) return;
+    const low = getPayPeriodLowPoint();
+    if (!Number.isFinite(low.bal)) return;
+    el.textContent = '$' + formatMoney2(low.bal);
+  }
+
+  /** Pay period window for chart header (aligned with mock Mar 17–31). */
+  const PAY_PERIOD_START_DAY = 17;
+  const PAY_PERIOD_END_DAY = 31;
+
+  function updateOutlookPeriodLine() {
+    const line = document.getElementById('outlook-period-line');
+    if (!line) return;
+    const dayN = Math.max(1, todayDate - PAY_PERIOD_START_DAY + 1);
+    line.innerHTML =
+      'Mar ' +
+      PAY_PERIOD_START_DAY +
+      ' – ' +
+      PAY_PERIOD_END_DAY +
+      ' · <strong id="outlook-day-n">Day ' +
+      dayN +
+      '</strong>';
+  }
+
+  function adjustThreshold(delta) {
+    safetyThreshold = Math.max(0, Math.min(1000, safetyThreshold + delta));
+    renderRiskScore();
+  }
 
   function navigateTo(id) {
     if (id === cur) return;
@@ -2752,12 +3769,7 @@
   }
 
   function finishBills() {
-    document.getElementById('detail-dot').className = 'alert-dot green';
-    document.getElementById('detail-subtext').textContent = 'On track — balance stays positive through Mar 31';
-    document.getElementById('home-forecast-dot').className = 'forecast-dot green';
-    document.getElementById('home-status-text').textContent = 'On track through Mar 31';
-    document.getElementById('home-status-sub').textContent = 'Balance stays positive until payday';
-    document.getElementById('accuracy-banner').style.display = 'none';
+    renderRiskScore();
     navigateTo('screen-detail');
     setTimeout(() => { const t = document.getElementById('toast'); t.classList.add('visible'); setTimeout(() => t.classList.remove('visible'), 3000); }, 300);
   }
@@ -2834,7 +3846,7 @@
     document.getElementById('pd-title').textContent = d.labels[idx];
     const tag = document.getElementById('pd-tag');
     if (idx === d.currentIdx) {
-      tag.textContent = 'Current period';
+      tag.textContent = 'Current · Projected';
       tag.className = 'pd-tag current';
     } else {
       tag.textContent = 'Past';
@@ -2859,7 +3871,7 @@
       else deltaHint = 'Same as peers';
 
       const pct = Math.round((val / maxCat) * 100);
-      catHTML += `<div class="pd-cat-row" onclick="showCatCompare('${name.replace(/'/g,"\\'")}', ${idx})" style="cursor:pointer;">
+      catHTML += `<div class="pd-cat-row" onclick="showCatTransactions('${name.replace(/'/g,"\\'")}');" style="cursor:pointer;">
         <div class="pd-cat-left"><div class="cat-dot" style="background:${categoryColors[name]}"></div><div class="pd-cat-name">${name}</div></div>
         <div class="pd-cat-bar-area"><div class="pd-cat-bar-track"><div class="pd-cat-bar-fill" style="width:${pct}%; background:${categoryColors[name]}"></div></div><div class="pd-cat-amount">$${val}</div></div>
         <div class="pd-cat-compare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
@@ -2870,32 +3882,64 @@
     buildPickerOptions();
   }
 
-  function showCatCompare(catName, periodIdx) {
+  function showCatCompare(scrollToCat, periodIdx) {
     const catData = chartMode === 'period' ? periodCatData : monthCatData;
     const d = chartMode === 'period' ? periodData : monthData;
     const cats = catData[periodIdx].cats;
     const peers = catData[periodIdx].peers;
-    const youVal = cats[catName];
-    const peerVal = peers[catName];
-    const diff = Math.round(((youVal - peerVal) / peerVal) * 100);
-    let deltaClass = 'same', deltaText = 'About the same';
-    if (diff > 3) { deltaClass = 'over'; deltaText = diff + '% more than peers'; }
-    else if (diff < -3) { deltaClass = 'under'; deltaText = Math.abs(diff) + '% less than peers'; }
-    const maxV = Math.max(youVal, peerVal);
-    const youPct = Math.round((youVal / maxV) * 100);
-    const peerPct = Math.round((peerVal / maxV) * 100);
+    const catNames = Object.keys(categoryColors);
 
-    const el = document.getElementById('screen-compare');
-    el.querySelector('.cmp-title').textContent = catName;
-    el.querySelector('.cmp-period').textContent = d.labels[periodIdx];
-    el.querySelector('.cmp-you-val').textContent = '$' + youVal;
-    el.querySelector('.cmp-you-bar').style.width = youPct + '%';
-    el.querySelector('.cmp-you-bar').style.background = categoryColors[catName];
-    el.querySelector('.cmp-peer-val').textContent = '$' + peerVal;
-    el.querySelector('.cmp-peer-bar').style.width = peerPct + '%';
-    el.querySelector('.cmp-delta').textContent = deltaText;
-    el.querySelector('.cmp-delta').className = 'cmp-delta ' + deltaClass;
+    document.querySelector('.cmp-period-label').textContent = d.labels[periodIdx];
+
+    let html = '';
+    catNames.forEach(name => {
+      const youVal = cats[name];
+      const peerVal = peers[name];
+      const diff = Math.round(((youVal - peerVal) / peerVal) * 100);
+      let deltaClass = 'same', deltaText = 'About the same';
+      if (diff > 3) { deltaClass = 'over'; deltaText = diff + '% more than peers'; }
+      else if (diff < -3) { deltaClass = 'under'; deltaText = Math.abs(diff) + '% less than peers'; }
+      const maxV = Math.max(youVal, peerVal);
+      const youPct = Math.round((youVal / maxV) * 100);
+      const peerPct = Math.round((peerVal / maxV) * 100);
+      const color = categoryColors[name];
+      const safeId = name.replace(/[^a-zA-Z]/g, '');
+
+      html += '<div class="cmp-cat-card" id="cmp-' + safeId + '">' +
+        '<div class="cmp-cat-head">' +
+          '<div class="cmp-cat-dot" style="background:' + color + '"></div>' +
+          '<div class="cmp-cat-name">' + name + '</div>' +
+        '</div>' +
+        '<div class="cmp-cat-body">' +
+          '<div class="cmp-bar-row">' +
+            '<div class="cmp-bar-label">You</div>' +
+            '<div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:' + youPct + '%; background:' + color + '"></div></div>' +
+            '<div class="cmp-bar-val you">$' + youVal + '</div>' +
+          '</div>' +
+          '<div class="cmp-bar-row">' +
+            '<div class="cmp-bar-label">Peers</div>' +
+            '<div class="cmp-bar-track"><div class="cmp-bar-fill" style="width:' + peerPct + '%; background:var(--color-border-primary)"></div></div>' +
+            '<div class="cmp-bar-val peer">$' + peerVal + '</div>' +
+          '</div>' +
+          '<div class="cmp-cat-delta ' + deltaClass + '">' + deltaText + '</div>' +
+        '</div>' +
+      '</div>';
+    });
+
+    document.getElementById('cmp-cards-container').innerHTML = html;
     navigateTo('screen-compare');
+
+    if (scrollToCat) {
+      const safeId = scrollToCat.replace(/[^a-zA-Z]/g, '');
+      const target = document.getElementById('cmp-' + safeId);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.classList.add('cmp-highlight');
+          setTimeout(() => target.classList.remove('cmp-highlight'), 2000);
+        }, 300);
+      }
+    }
   }
 
   function togglePeriodPicker() {
@@ -2918,13 +3962,38 @@
     document.getElementById('pd-picker-options').innerHTML = html;
   }
 
+  let activeSeriesKey = 'balance';
+  let spendingCatFilter = 'all';
   const activeSeries = { balance: true, income: false, spending: false };
 
-  function toggleSeries(key) {
-    activeSeries[key] = !activeSeries[key];
-    document.querySelector(`.chart-toggle[data-series="${key}"]`).classList.toggle('active', activeSeries[key]);
+  function selectSeries(key) {
+    activeSeriesKey = key;
+    activeSeries.balance = key === 'balance';
+    activeSeries.income = key === 'income';
+    activeSeries.spending = key === 'spending';
+    document.querySelectorAll('.chart-toggle').forEach(el => {
+      el.classList.toggle('active', el.dataset.series === key);
+    });
+    const filterEl = document.getElementById('chart-spending-filter');
+    if (key === 'spending') { filterEl.classList.remove('hidden'); }
+    else { filterEl.classList.add('hidden'); spendingCatFilter = 'all'; document.getElementById('spending-cat-select').value = 'all'; }
     drawChart();
   }
+
+  function onSpendingCatChange() {
+    spendingCatFilter = document.getElementById('spending-cat-select').value;
+    drawChart();
+  }
+
+  function getSpendingSeriesData() {
+    const catData = chartMode === 'period' ? periodCatData : monthCatData;
+    if (spendingCatFilter === 'all') {
+      return chartMode === 'period' ? periodData.spending : monthData.spending;
+    }
+    return catData.map(p => p.cats[spendingCatFilter] || 0);
+  }
+
+  function toggleSeries(key) { selectSeries(key); }
 
   function switchChart(mode) {
     chartMode = mode;
@@ -2939,6 +4008,8 @@
     if (tab === 'this-period') {
       document.querySelector('.screen-tab:first-child').classList.add('active');
       document.getElementById('panel-this-period').classList.add('active');
+      collapseBreakdown();
+      setTimeout(() => { drawPayPeriodBalanceChart(); }, 80);
     } else {
       document.querySelector('.screen-tab:last-child').classList.add('active');
       document.getElementById('panel-over-time').classList.add('active');
@@ -2964,10 +4035,14 @@
 
     const d = chartMode === 'period' ? periodData : monthData;
     const n = d.labels.length;
+    const curIdx = d.currentIdx;
+
+    const spendData = getSpendingSeriesData();
+
     const visibleVals = [];
     if (activeSeries.balance) visibleVals.push(...d.balance);
     if (activeSeries.income) visibleVals.push(...d.income);
-    if (activeSeries.spending) visibleVals.push(...d.spending);
+    if (activeSeries.spending) visibleVals.push(...spendData);
     if (!visibleVals.length) visibleVals.push(...d.balance);
     const maxVal = Math.max(...visibleVals) * 1.18;
     const barGroupW = W / n;
@@ -2990,57 +4065,102 @@
       ctx.stroke();
     }
 
-    const showBars = activeSeries.income || activeSeries.spending;
-
     for (let i = 0; i < n; i++) {
       const cx = barGroupW * i + barGroupW / 2;
 
-      if (i === d.currentIdx) {
+      if (i === curIdx) {
         ctx.fillStyle = 'rgba(255,236,61,0.12)';
         ctx.fillRect(barGroupW * i + 2, 0, barGroupW - 4, H);
       }
 
-      if (showBars) {
-        const x1 = cx - barW - gap / 2;
-        const x2 = cx + gap / 2;
-
-        if (activeSeries.income) {
-          const incomeH = (d.income[i] / maxVal) * chartH;
-          ctx.fillStyle = activeSeries.spending ? '#2E7D32' : '#2E7D32';
-          roundRect(ctx, activeSeries.spending ? x1 : cx - barW/2, yPos(d.income[i]), barW, incomeH, 3);
-        }
-        if (activeSeries.spending) {
-          const spendH = (d.spending[i] / maxVal) * chartH;
-          ctx.fillStyle = '#E65100';
-          roundRect(ctx, activeSeries.income ? x2 : cx - barW/2, yPos(d.spending[i]), barW, spendH, 3);
-        }
+      if (activeSeries.income) {
+        const incomeH = (d.income[i] / maxVal) * chartH;
+        ctx.fillStyle = '#2E7D32';
+        if (i === curIdx) { ctx.globalAlpha = 0.5; }
+        roundRect(ctx, cx - barW/2, yPos(d.income[i]), barW, incomeH, 3);
+        ctx.globalAlpha = 1;
+      }
+      if (activeSeries.spending) {
+        const spendH = (spendData[i] / maxVal) * chartH;
+        ctx.fillStyle = '#E65100';
+        if (i === curIdx) { ctx.globalAlpha = 0.5; }
+        roundRect(ctx, cx - barW/2, yPos(spendData[i]), barW, spendH, 3);
+        ctx.globalAlpha = 1;
       }
     }
 
     function drawLine(data, color, showLabels) {
-      ctx.beginPath();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2.5;
-      ctx.lineJoin = 'round';
-      for (let i = 0; i < n; i++) {
-        const x = barGroupW * i + barGroupW / 2;
-        const y = yPos(data[i]);
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      }
-      ctx.stroke();
+      const solidEnd = curIdx > 0 ? curIdx - 1 : 0;
 
-      for (let i = 0; i < n; i++) {
-        const x = barGroupW * i + barGroupW / 2;
-        const y = yPos(data[i]);
+      // Solid segment: up to one before current
+      if (solidEnd >= 0) {
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = i === d.currentIdx ? color : '#FFFFFF';
-        ctx.fill();
         ctx.strokeStyle = color;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2.5;
+        ctx.lineJoin = 'round';
+        ctx.setLineDash([]);
+        for (let i = 0; i <= Math.min(solidEnd, n - 1); i++) {
+          const x = barGroupW * i + barGroupW / 2;
+          const y = yPos(data[i]);
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
         ctx.stroke();
       }
 
+      // Dashed segment: from solidEnd to end (predicted)
+      if (curIdx > 0 && curIdx < n) {
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2.5;
+        ctx.lineJoin = 'round';
+        ctx.setLineDash([5, 4]);
+        const startI = Math.max(solidEnd, 0);
+        for (let i = startI; i < n; i++) {
+          const x = barGroupW * i + barGroupW / 2;
+          const y = yPos(data[i]);
+          if (i === startI) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+      } else {
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2.5;
+        ctx.lineJoin = 'round';
+        ctx.setLineDash([]);
+        for (let i = 0; i < n; i++) {
+          const x = barGroupW * i + barGroupW / 2;
+          const y = yPos(data[i]);
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      // Points
+      for (let i = 0; i < n; i++) {
+        const x = barGroupW * i + barGroupW / 2;
+        const y = yPos(data[i]);
+        const isPredicted = i >= curIdx;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        if (isPredicted && curIdx > 0) {
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fill();
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2;
+          ctx.setLineDash([2, 2]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        } else {
+          ctx.fillStyle = i === curIdx ? color : '#FFFFFF';
+          ctx.fill();
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+      }
+
+      // Labels
       if (showLabels) {
         ctx.font = '600 10px Inter, sans-serif';
         ctx.textAlign = 'center';
@@ -3048,56 +4168,63 @@
           const x = barGroupW * i + barGroupW / 2;
           const y = yPos(data[i]);
           const label = fmtK(data[i]);
+          const isPredicted = i >= curIdx && curIdx > 0;
           const ly = y - 10;
           ctx.fillStyle = 'rgba(255,255,255,0.85)';
-          const tw = ctx.measureText(label).width + 8;
+          const tw = ctx.measureText(label).width + (isPredicted ? 8 : 8);
           ctx.beginPath();
           ctx.roundRect(x - tw/2, ly - 8, tw, 15, 4);
           ctx.fill();
-          ctx.fillStyle = color;
+          ctx.fillStyle = isPredicted ? '#9DA1A8' : color;
           ctx.fillText(label, x, ly + 3);
         }
+      }
+
+      // "Projected" badge above current index
+      if (curIdx > 0 && curIdx < n) {
+        const cx = barGroupW * curIdx + barGroupW / 2;
+        const cy = yPos(data[curIdx]);
+        const badgeY = Math.min(cy, padTop + 12) - 2;
+        ctx.font = '600 8px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        const bw = ctx.measureText('Projected').width + 10;
+        ctx.fillStyle = '#F0F1F2';
+        ctx.beginPath();
+        ctx.roundRect(cx - bw/2, badgeY - 9, bw, 14, 3);
+        ctx.fill();
+        ctx.fillStyle = '#9DA1A8';
+        ctx.fillText('Projected', cx, badgeY + 2);
       }
     }
 
     if (activeSeries.balance) drawLine(d.balance, '#000000', true);
 
-    if (activeSeries.income && !activeSeries.spending) {
+    if (activeSeries.income) {
       ctx.font = '500 9px Inter, sans-serif';
       ctx.textAlign = 'center';
       for (let i = 0; i < n; i++) {
         const cx = barGroupW * i + barGroupW / 2;
-        ctx.fillStyle = '#2E7D32';
+        const isPredicted = i >= curIdx && curIdx > 0;
+        ctx.fillStyle = isPredicted ? 'rgba(46,125,50,0.5)' : '#2E7D32';
         ctx.fillText(fmtK(d.income[i]), cx, yPos(d.income[i]) - 6);
       }
     }
-    if (activeSeries.spending && !activeSeries.income) {
+    if (activeSeries.spending) {
       ctx.font = '500 9px Inter, sans-serif';
       ctx.textAlign = 'center';
       for (let i = 0; i < n; i++) {
         const cx = barGroupW * i + barGroupW / 2;
-        ctx.fillStyle = '#E65100';
-        ctx.fillText(fmtK(d.spending[i]), cx, yPos(d.spending[i]) - 6);
-      }
-    }
-    if (activeSeries.income && activeSeries.spending) {
-      ctx.font = '500 9px Inter, sans-serif';
-      ctx.textAlign = 'center';
-      for (let i = 0; i < n; i++) {
-        const cx = barGroupW * i + barGroupW / 2;
-        if (i === 0 || i === d.currentIdx) {
-          ctx.fillStyle = '#2E7D32';
-          ctx.fillText(fmtK(d.income[i]), cx - barW/2 - gap, yPos(d.income[i]) - 6);
-          ctx.fillStyle = '#E65100';
-          ctx.fillText(fmtK(d.spending[i]), cx + barW/2 + gap, yPos(d.spending[i]) - 6);
-        }
+        const isPredicted = i >= curIdx && curIdx > 0;
+        ctx.fillStyle = isPredicted ? 'rgba(230,81,0,0.5)' : '#E65100';
+        ctx.fillText(fmtK(spendData[i]), cx, yPos(spendData[i]) - 6);
       }
     }
 
     const labelsEl = document.getElementById('chart-x-labels');
-    labelsEl.innerHTML = d.labels.map((l, i) =>
-      `<span class="chart-x-label${i === d.currentIdx ? ' current' : ''}${i === selectedPeriodIdx ? ' selected' : ''}" onclick="selectPeriod(${i})">${l}</span>`
-    ).join('');
+    labelsEl.innerHTML = d.labels.map((l, i) => {
+      const isPred = i >= curIdx && curIdx > 0;
+      return `<span class="chart-x-label${i === curIdx ? ' current' : ''}${i === selectedPeriodIdx ? ' selected' : ''}${isPred ? ' predicted' : ''}" onclick="selectPeriod(${i})">${l}</span>`;
+    }).join('');
 
     if (document.getElementById('period-detail').classList.contains('visible')) {
       selectPeriod(selectedPeriodIdx);
@@ -3142,19 +4269,477 @@
     22: { bal: 1247, txns: [{name:'Starbucks', cat:'Dining out', amt:'−$6', type:'expense'},{name:'Target', cat:'Shopping', amt:'−$34', type:'expense'}], today: true },
     23: { bal: 1207, txns: [{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
     24: { bal: 1167, txns: [{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
-    25: { bal: 927,  txns: [{name:'Car Insurance', cat:'Bill', amt:'−$200', type:'bill'},{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
-    26: { bal: 887,  txns: [{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
-    27: { bal: 762,  txns: [{name:'Phone Bill', cat:'Bill', amt:'−$85', type:'bill'},{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
-    28: { bal: -89,  txns: [{name:'Electric Bill', cat:'Bill', amt:'−$150', type:'bill'},{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true, danger: true },
-    29: { bal: -129, txns: [{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true, danger: true },
-    30: { bal: -169, txns: [{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true, danger: true },
-    31: { bal: 1681, txns: [{name:'Paycheck', cat:'Income', amt:'+$1,850', type:'income'}], projected: true },
+    25: { bal: 727,  txns: [{name:'Car Insurance', cat:'Bill', amt:'−$200', type:'bill'},{name:'Loan payment', cat:'Bill', amt:'−$200', type:'bill'},{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
+    26: { bal: 387,  txns: [{name:'Credit Card', cat:'Bill', amt:'−$300', type:'bill'},{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
+    27: { bal: 222,  txns: [{name:'Phone Bill', cat:'Bill', amt:'−$85', type:'bill'},{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'},{name:'Gym Membership', cat:'Bill', amt:'−$40', type:'bill'}], projected: true },
+    28: { bal: 67,   txns: [{name:'Electric Bill', cat:'Bill', amt:'−$115', type:'bill'},{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
+    29: { bal: 107,  txns: [{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
+    30: { bal: 147,  txns: [{name:'Est. spending', cat:'Projected', amt:'−$40', type:'projected'}], projected: true },
+    31: { bal: 1997, txns: [{name:'Paycheck', cat:'Income', amt:'+$1,850', type:'income'}], projected: true },
   };
 
   const todayDate = 22;
   let selectedCalDay = todayDate;
+  /** Selected day on pay-period chart for math breakdown (defaults to projected low in-range) */
+  let selectedPayPeriodDay = 28;
+
+  function syncDefaultSelectedPayPeriodDay() {
+    const low = getPayPeriodLowPoint();
+    selectedPayPeriodDay = typeof low.day === 'number' ? low.day : todayDate;
+  }
   const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const shortDays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  let lastPayPeriodChartLayout = null;
+
+  function parseTxnAmt(amtStr) {
+    if (!amtStr || typeof amtStr !== 'string') return 0;
+    const n = parseInt(String(amtStr).replace(/[^0-9]/g, ''), 10);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  const PPB_ICON = {
+    wallet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>',
+    bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+    car: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-.1-1.4-.1C14.1 9.9 14 10.9 14 12v1c0 .6-.4 1-1 1H5c-.6 0-1-.4-1-1V9c0-.6.4-1 1-1h.5"/><path d="M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>',
+    calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m15 15-6-6"/><path d="m9 15 6-6"/></svg>',
+    bill: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>'
+  };
+
+  function ppbPickIcon(name) {
+    const n = String(name || '').toLowerCase();
+    if (n.includes('car')) return PPB_ICON.car;
+    if (n.includes('loan')) return PPB_ICON.calendar;
+    if (n.includes('est')) return PPB_ICON.bag;
+    return PPB_ICON.bill;
+  }
+
+  function updatePayPeriodBreakdown() {
+    const host = document.getElementById('ppb-rows');
+    const labelEl = document.getElementById('ppb-selected-label');
+    if (!host || !labelEl) return;
+
+    let D = selectedPayPeriodDay;
+    if (D < todayDate) D = todayDate;
+    if (D > 31) D = 31;
+    if (!calendarData[D]) return;
+
+    labelEl.textContent = 'Mar ' + D;
+
+    let totalProj = 0;
+    const projDays = new Set();
+    const billRows = [];
+    const incomeRows = [];
+
+    for (let d = todayDate + 1; d <= D; d++) {
+      const day = calendarData[d];
+      if (!day || !day.txns) continue;
+      for (const t of day.txns) {
+        const amt = parseTxnAmt(t.amt);
+        if (t.type === 'projected') {
+          totalProj += amt;
+          projDays.add(d);
+        } else if (t.type === 'bill') {
+          billRows.push({ name: t.name, day: d, amt });
+        } else if (t.type === 'income') {
+          incomeRows.push({ name: t.name, day: d, amt });
+        }
+      }
+    }
+
+    const currentBal = calendarData[todayDate].bal;
+    const projDayCount = projDays.size;
+    const avgDaily = projDayCount > 0 ? Math.round(totalProj / projDayCount) : 0;
+
+    function rowNeg(amt) {
+      return '<span class="ppb-val neg">−$' + formatMoney2(amt) + '</span>';
+    }
+    function rowPos(amt) {
+      return '<span class="ppb-val pos">+$' + formatMoney2(amt) + '</span>';
+    }
+
+    let html = '';
+    html += '<div class="ppb-row ppb-row-highlight">' +
+      '<div class="ppb-row-inner">' +
+      '<div class="ppb-icon">' + PPB_ICON.wallet + '</div>' +
+      '<div class="ppb-label"><span class="ppb-label-main">Current balance</span><span class="ppb-muted">End of Mar ' + todayDate + '</span></div>' +
+      '</div>' + rowPos(currentBal) + '</div>';
+
+    if (D > todayDate && totalProj > 0) {
+      const sub = '$' + avgDaily + '/day × ' + projDayCount + ' day' + (projDayCount === 1 ? '' : 's');
+      html += '<div class="ppb-row ppb-sub">' +
+        '<div class="ppb-row-inner">' +
+        '<div class="ppb-icon">' + PPB_ICON.bag + '</div>' +
+        '<div class="ppb-label"><span class="ppb-label-main">Est. spending</span><span class="ppb-muted">' + sub + '</span></div>' +
+        '</div>' + rowNeg(totalProj) + '</div>';
+    }
+
+    billRows.forEach(b => {
+      const ic = ppbPickIcon(b.name);
+      html += '<div class="ppb-row ppb-sub">' +
+        '<div class="ppb-row-inner">' +
+        '<div class="ppb-icon">' + ic + '</div>' +
+        '<div class="ppb-label"><span class="ppb-label-main">' + b.name + '</span><span class="ppb-muted">Due Mar ' + b.day + '</span></div>' +
+        '</div>' + rowNeg(b.amt) + '</div>';
+    });
+
+    incomeRows.forEach(inc => {
+      html += '<div class="ppb-row ppb-sub">' +
+        '<div class="ppb-row-inner">' +
+        '<div class="ppb-icon">' + PPB_ICON.bill + '</div>' +
+        '<div class="ppb-label"><span class="ppb-label-main">' + inc.name + '</span><span class="ppb-muted">Mar ' + inc.day + '</span></div>' +
+        '</div>' + rowPos(inc.amt) + '</div>';
+    });
+
+    const projected = calendarData[D] ? calendarData[D].bal : 0;
+    html += '<div class="ppb-row ppb-total">' +
+      '<div class="ppb-label"><span class="ppb-label-main">Predicted balance</span><span class="ppb-muted">End of Mar ' + D + '</span></div>' +
+      '<span class="ppb-val" style="font-size:16px; font-weight:700;">$' + formatMoney2(projected) + '</span></div>';
+
+    host.innerHTML = html;
+  }
+
+  function drawPayPeriodBalanceChart() {
+    const canvas = document.getElementById('pay-period-balance-chart');
+    if (!canvas) return;
+    const parent = canvas.parentElement;
+    if (!parent) return;
+    const rect = parent.getBoundingClientRect();
+    const w = Math.max(260, Math.floor(rect.width || 320));
+    const h = 168;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, w, h);
+
+    const pad = { l: 46, r: 16, t: 24, b: 32 };
+    const chartW = w - pad.l - pad.r;
+    const chartH = h - pad.t - pad.b;
+
+    const points = [];
+    for (let d = todayDate; d <= 31; d++) {
+      if (calendarData[d]) points.push({ day: d, bal: calendarData[d].bal });
+    }
+    if (points.length < 2) return;
+
+    const vals = points.map(p => p.bal);
+    let minV = Math.min(0, safetyThreshold, ...vals);
+    let maxV = Math.max(0, safetyThreshold, ...vals);
+    const padAmt = Math.max(120, (maxV - minV) * 0.15);
+    minV -= padAmt;
+    maxV += padAmt;
+    const range = maxV - minV || 1;
+
+    const valToY = (v) => pad.t + (1 - (v - minV) / range) * chartH;
+    const idxToX = (i) => pad.l + (i / (points.length - 1)) * chartW;
+
+    ctx.fillStyle = '#F8FAFC';
+    ctx.fillRect(pad.l, pad.t, chartW, chartH);
+
+    ctx.lineWidth = 1.25;
+    ctx.setLineDash([5, 4]);
+    ctx.strokeStyle = 'rgba(148, 163, 184, 0.9)';
+    ctx.beginPath();
+    ctx.moveTo(pad.l, valToY(0));
+    ctx.lineTo(pad.l + chartW, valToY(0));
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.95)';
+    ctx.beginPath();
+    ctx.moveTo(pad.l, valToY(safetyThreshold));
+    ctx.lineTo(pad.l + chartW, valToY(safetyThreshold));
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.font = '600 10px system-ui, -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#64748b';
+    ctx.fillText('$0', pad.l - 6, valToY(0) + 3);
+    ctx.fillStyle = '#D97706';
+    ctx.fillText('$' + safetyThreshold, pad.l - 6, valToY(safetyThreshold) + 3);
+
+    const r = computeRiskScore();
+    const lineColors = { green: '#15803D', yellow: '#EA580C', red: '#DC2626' };
+    const stroke = lineColors[r.level] || '#0f172a';
+
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 2.5;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    points.forEach((p, i) => {
+      const x = idxToX(i);
+      const y = valToY(p.bal);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    let selCx = null, selCy = null, selBal = null;
+    points.forEach((p, i) => {
+      const cx = idxToX(i);
+      const cy = valToY(p.bal);
+      const sel = p.day === selectedPayPeriodDay;
+      if (sel) {
+        selCx = cx; selCy = cy; selBal = p.bal;
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = stroke;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    if (selCx !== null) {
+      const labelText = '$' + selBal.toLocaleString('en-US');
+      ctx.font = '700 11px system-ui, -apple-system, BlinkMacSystemFont, sans-serif';
+      const tw = ctx.measureText(labelText).width;
+      const lbPadH = 6, lbPadV = 4, lbR = 4;
+      const lbW = tw + lbPadH * 2;
+      const lbH = 14 + lbPadV * 2;
+      let lbX = selCx - lbW / 2;
+      if (lbX < pad.l) lbX = pad.l;
+      if (lbX + lbW > w - pad.r) lbX = w - pad.r - lbW;
+      const lbY = selCy - 14 - lbH;
+
+      ctx.fillStyle = stroke;
+      ctx.beginPath();
+      ctx.moveTo(lbX + lbR, lbY);
+      ctx.lineTo(lbX + lbW - lbR, lbY);
+      ctx.quadraticCurveTo(lbX + lbW, lbY, lbX + lbW, lbY + lbR);
+      ctx.lineTo(lbX + lbW, lbY + lbH - lbR);
+      ctx.quadraticCurveTo(lbX + lbW, lbY + lbH, lbX + lbW - lbR, lbY + lbH);
+      ctx.lineTo(lbX + lbR, lbY + lbH);
+      ctx.quadraticCurveTo(lbX, lbY + lbH, lbX, lbY + lbH - lbR);
+      ctx.lineTo(lbX, lbY + lbR);
+      ctx.quadraticCurveTo(lbX, lbY, lbX + lbR, lbY);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(selCx - 4, lbY + lbH);
+      ctx.lineTo(selCx, lbY + lbH + 5);
+      ctx.lineTo(selCx + 4, lbY + lbH);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = '#fff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(labelText, lbX + lbW / 2, lbY + lbH / 2 + 0.5);
+      ctx.textBaseline = 'alphabetic';
+    }
+
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 10px system-ui, -apple-system, BlinkMacSystemFont, sans-serif';
+    ctx.textAlign = 'center';
+    const ix = [0, Math.floor((points.length - 1) / 2), points.length - 1];
+    const seen = new Set();
+    ix.forEach(i => {
+      if (i < 0 || i >= points.length || seen.has(i)) return;
+      seen.add(i);
+      ctx.fillText('MAR ' + points[i].day, idxToX(i), h - 10);
+    });
+
+    lastPayPeriodChartLayout = { points, idxToX, w, h, pad };
+  }
+
+  (function bindPayPeriodChartClick() {
+    const ppCanvas = document.getElementById('pay-period-balance-chart');
+    if (!ppCanvas) return;
+    ppCanvas.addEventListener('click', function (e) {
+      const L = lastPayPeriodChartLayout;
+      if (!L || !L.points || L.points.length < 1) return;
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      let bestI = 0;
+      let bestDist = Infinity;
+      L.points.forEach((p, i) => {
+        const px = L.idxToX(i);
+        const d = Math.abs(x - px);
+        if (d < bestDist) {
+          bestDist = d;
+          bestI = i;
+        }
+      });
+      selectedPayPeriodDay = L.points[bestI].day;
+      drawPayPeriodBalanceChart();
+      updatePayPeriodBreakdown();
+      revealBreakdown();
+    });
+  })();
+
+  function revealBreakdown() {
+    const el = document.getElementById('pay-period-breakdown');
+    if (!el) return;
+    if (el.classList.contains('ppb-collapsed')) {
+      el.classList.remove('ppb-collapsed');
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 360);
+    }
+  }
+
+  function collapseBreakdown() {
+    const el = document.getElementById('pay-period-breakdown');
+    if (el) el.classList.add('ppb-collapsed');
+  }
+
+  function toggleCatInsights() {
+    const card = document.getElementById('cat-card');
+    if (card) card.classList.toggle('cat-insight-drawer-open');
+  }
+
+  function toggleCardInsight(cardId) {
+    const card = document.getElementById(cardId);
+    if (card) card.classList.toggle('ci-drawer-open');
+  }
+
+  function highlightCatRow(catName) {
+    const card = document.getElementById('cat-card');
+    if (!card) return;
+    const rows = card.querySelectorAll('.cat-row');
+    rows.forEach(row => {
+      row.classList.remove('cat-row-highlight');
+      const name = row.querySelector('.cat-name');
+      if (name && name.textContent.trim() === catName) {
+        row.classList.add('cat-row-highlight');
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => row.classList.remove('cat-row-highlight'), 2000);
+      }
+    });
+  }
+
+  const catTransactions = {
+    'Dining & Takeout': [
+      { date: 'Mar 22', name: 'Starbucks', amt: 6.45 },
+      { date: 'Mar 21', name: 'Chipotle', amt: 12.85 },
+      { date: 'Mar 20', name: 'DoorDash', amt: 28.90 },
+      { date: 'Mar 19', name: 'Sweetgreen', amt: 15.20 },
+      { date: 'Mar 18', name: 'Panera Bread', amt: 14.25 },
+      { date: 'Mar 17', name: 'Starbucks', amt: 7.35 },
+      { date: 'Mar 17', name: 'Pizza Hut', amt: 23.00 }
+    ],
+    'Groceries': [
+      { date: 'Mar 22', name: 'Trader Joe\'s', amt: 18.40 },
+      { date: 'Mar 20', name: 'Whole Foods', amt: 67.30 },
+      { date: 'Mar 18', name: 'Grocery Outlet', amt: 42.50 },
+      { date: 'Mar 17', name: 'Costco', amt: 89.00 }
+    ],
+    'Transportation': [
+      { date: 'Mar 21', name: 'Uber', amt: 18.50 },
+      { date: 'Mar 19', name: 'Gas Station', amt: 42.00 },
+      { date: 'Mar 17', name: 'Lyft', amt: 12.75 }
+    ],
+    'Entertainment': [
+      { date: 'Mar 20', name: 'Spotify', amt: 10.99 },
+      { date: 'Mar 18', name: 'Movie tickets', amt: 28.00 },
+      { date: 'Mar 17', name: 'Apple Arcade', amt: 6.99 }
+    ],
+    'Other': [
+      { date: 'Mar 21', name: 'Amazon', amt: 34.20 },
+      { date: 'Mar 20', name: 'Target', amt: 22.15 },
+      { date: 'Mar 18', name: 'CVS Pharmacy', amt: 12.50 },
+      { date: 'Mar 17', name: 'Dry cleaning', amt: 18.00 }
+    ]
+  };
+
+  const catTxnIcons = {
+    'Dining & Takeout': '<svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-status-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>',
+    'Groceries': '<svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>',
+    'Transportation': '<svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+    'Entertainment': '<svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+    'Other': '<svg viewBox="0 0 24 24" fill="none" stroke="var(--color-fg-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>'
+  };
+
+  function showCatTransactions(catName) {
+    const txns = catTransactions[catName] || [];
+    const total = txns.reduce((s, t) => s + t.amt, 0);
+    const color = categoryColors[catName] || '#9DA1A8';
+    const iconSvg = catTxnIcons[catName] || catTxnIcons['Other'];
+    const iconBg = catName === 'Dining & Takeout' ? 'var(--color-bg-status-warning-light)' : 'var(--color-bg-inset)';
+
+    document.getElementById('txn-screen-title').textContent = catName;
+    document.getElementById('txn-screen-subtitle').innerHTML =
+      txns.length + ' transaction' + (txns.length !== 1 ? 's' : '') +
+      ' · <span style="color:' + color + '; font-weight:600;">$' + total.toFixed(2) + '</span>';
+
+    let prevDate = '';
+    let html = '';
+    txns.forEach(t => {
+      if (t.date !== prevDate) {
+        html += '<div class="txn-day-header">' + t.date + '</div>';
+        prevDate = t.date;
+      }
+      html += '<div class="txn-row">' +
+        '<div class="txn-left">' +
+          '<div class="txn-icon" style="background:' + iconBg + ';">' + iconSvg + '</div>' +
+          '<div><div class="txn-name">' + t.name + '</div><div class="txn-cat">' + catName + '</div></div>' +
+        '</div>' +
+        '<div class="txn-amount">−$' + t.amt.toFixed(2) + '</div>' +
+      '</div>';
+    });
+
+    if (!txns.length) {
+      html = '<div style="padding:24px 16px; text-align:center; color:var(--color-fg-tertiary); font-size:13px;">No transactions yet this period.</div>';
+    }
+
+    document.getElementById('txn-list').innerHTML = html;
+    navigateTo('screen-transactions');
+  }
+
+  function updateSpendingPower() {
+    const daysLeft = 31 - todayDate;
+    if (daysLeft <= 0) return;
+
+    let upcomingBills = 0;
+    for (let d = todayDate + 1; d <= 31; d++) {
+      const day = calendarData[d];
+      if (!day || !day.txns) continue;
+      for (const t of day.txns) {
+        if (t.type === 'bill') upcomingBills += parseTxnAmt(t.amt);
+      }
+    }
+
+    const currentBal = calendarData[todayDate] ? calendarData[todayDate].bal : 0;
+    const availAfterBills = currentBal - upcomingBills;
+    const bufferSpare = availAfterBills - safetyThreshold;
+
+    const perDayBuffer = Math.max(0, Math.floor(bufferSpare / daysLeft));
+    const perDayPositive = Math.max(0, Math.floor(availAfterBills / daysLeft));
+
+    const el = (id) => document.getElementById(id);
+    if (el('sp-days-num')) el('sp-days-num').textContent = daysLeft;
+    if (el('sp-buffer-val')) el('sp-buffer-val').textContent = safetyThreshold.toLocaleString('en-US');
+    if (el('sp-per-day-buffer')) el('sp-per-day-buffer').textContent = '$' + perDayBuffer;
+    if (el('sp-per-day-positive')) el('sp-per-day-positive').textContent = '$' + perDayPositive;
+    if (el('sp-remaining-label')) el('sp-remaining-label').textContent = '$' + availAfterBills.toLocaleString('en-US') + ' remaining after bills';
+
+    const pct = Math.min(100, Math.round(((31 - daysLeft - 17 + 1) / (31 - 17 + 1)) * 100));
+    if (el('sp-track-elapsed')) el('sp-track-elapsed').style.width = pct + '%';
+  }
+
+  let payPeriodChartResizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(payPeriodChartResizeTimer);
+    payPeriodChartResizeTimer = setTimeout(() => {
+      if (cur === 'screen-detail') {
+        drawPayPeriodBalanceChart();
+      }
+    }, 150);
+  });
 
   function buildCalendar() {
     const grid = document.getElementById('cal-grid');
@@ -3253,6 +4838,8 @@
   function drawTimelineChart() { buildCalendar(); }
   function buildTimelineRows() { }
 
+  syncDefaultSelectedPayPeriodDay();
+  renderRiskScore();
   setTimeout(() => { if (cur === 'screen-home') { document.getElementById('notif').classList.add('visible'); setTimeout(dismissNotif, 6000); } }, 2500);
 </script>
 </body>
